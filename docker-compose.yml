@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+  productpage:
+    build:
+      context: . #lugar donde se construye la imagen
+      dockerfile: ProductPage_Dockerfile #nombre de la imagen base
+    image: grupo48/productpage #nombre de la imagen que construyo
+    restart: always
+    ports:
+      - 9080:9080 #el segundo es el puerto de dentro del contenedor, el primero el puerto que expongo de mi portatil localhost:9080 
+    links:
+      - details
+      - reviews
+
+  details:
+    build:
+      context: .
+      dockerfile: Details_Dockerfile
+    image: grupo48/details
+    restart: always
+    expose:
+      - 9080 #expones sólo el puerto por dentro de los contenedores.
+  
+  reviews:
+    build:
+      context: .
+      dockerfile: Reviews_Dockerfile
+      args:
+        service_version: ${SERVICE_VERSION}
+        enable_ratings: ${ENABLE_RATINGS}
+        star_color: ${STAR_COLOR}
+    image: grupo48/reviews
+    restart: always
+    expose:
+      - 9080
+    links:
+      - ratings
+
+  ratings:
+    build:
+      context: .
+      dockerfile: Ratings_Dockerfile
+    image: grupo48/ratings
+    restart: always
+    expose:
+      - 9080
