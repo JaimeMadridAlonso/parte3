@@ -3,12 +3,12 @@ version: '3.3'
 services:
   productpage:
     build:
-      context: . #lugar donde se construye la imagen
-      dockerfile: ProductPage_Dockerfile #nombre de la imagen base
-    image: grupo48/productpage #nombre de la imagen que construyo
+      context: .
+      dockerfile: ProductPage_Dockerfile
+    image: grupo48/productpage
     restart: always
     ports:
-      - 9080:9080 #el segundo es el puerto de dentro del contenedor, el primero el puerto que expongo de mi portatil localhost:9080 
+      - 9080:9080
     links:
       - details
       - reviews
@@ -20,7 +20,7 @@ services:
     image: grupo48/details
     restart: always
     expose:
-      - 9080 #expones sólo el puerto por dentro de los contenedores.
+      - 9080
   
   reviews:
     build:
